@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "CF Dịch Đề — Codeforces Translator",
+  "version": "1.2.1",
+  "description": "Dịch & tóm tắt đề Codeforces — MIỄN PHÍ 100%, không cần API key. Giữ nguyên công thức, code, link.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://codeforces.com/*",
+    "https://*.codeforces.com/*",
+    "https://translate.googleapis.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.openai.com/*",
+    "https://text.pollinations.ai/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://codeforces.com/*", "https://*.codeforces.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CF Dịch Đề"
+  }
+}

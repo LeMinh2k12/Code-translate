@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { color-scheme: dark; }
+  body {
+    width: 320px;
+    margin: 0;
+    padding: 12px;
+    background: #0f172a;
+    color: #e2e8f0;
+    font: 13px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 { font-size: 14px; margin: 0 0 10px; color: #93c5fd; }
+  label { display: block; margin: 10px 0 3px; color: #94a3b8; font-size: 12px; }
+  select, input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    border-radius: 7px;
+    padding: 6px 8px;
+    font: inherit;
+  }
+  input:focus, select:focus { outline: 1px solid #2563eb; }
+  .box {
+    border: 1px solid #1e293b;
+    border-radius: 9px;
+    padding: 8px;
+    margin-top: 6px;
+    background: #111c33;
+  }
+  .row { display: flex; gap: 8px; align-items: center; margin: 10px 0 0; }
+  .row input[type="checkbox"] { width: auto; }
+  .btns { display: flex; gap: 8px; margin-top: 12px; }
+  button {
+    flex: 1;
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 6px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #btn-translate { background: #2563eb; color: #fff; }
+  #btn-translate:hover { background: #1d4ed8; }
+  #btn-original { background: #334155; color: #cbd5e1; }
+  #status { margin-top: 10px; min-height: 18px; color: #94a3b8; font-size: 12px; }
+  #status.ok { color: #4ade80; }
+  #status.err { color: #f87171; }
+  .hint { margin-top: 10px; font-size: 11px; color: #64748b; }
+  .hint a { color: #93c5fd; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <h1>🌐 CF Dịch Đề</h1>
+
+  <label for="engine">Engine dịch</label>
+  <select id="engine">
+    <option value="google">Google Translate (miễn phí, nhanh)</option>
+    <option value="gemini">Gemini (chuẩn nhất, cần key miễn phí)</option>
+    <option value="openai">OpenAI-compatible (ChatGPT/DeepSeek/...)</option>
+  </select>
+
+  <label for="target">Dịch sang ngôn ngữ</label>
+  <select id="target">
+    <option value="vi">Tiếng Việt</option>
+    <option value="en">English</option>
+    <option value="ru">Русский (Nga)</option>
+    <option value="zh-CN">中文 (Trung)</option>
+    <option value="ja">日本語 (Nhật)</option>
+    <option value="ko">한국어 (Hàn)</option>
+    <option value="es">Español</option>
+    <option value="pt">Português</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="id">Indonesia</option>
+    <option value="th">ไทย</option>
+    <option value="hi">हिन्दी</option>
+    <option value="ar">العربية</option>
+    <option value="tr">Türkçe</option>
+    <option value="uk">Українська</option>
+    <option value="pl">Polski</option>
+  </select>
+
+  <div id="gemini-box" class="box hidden">
+    <label for="geminiKey">Gemini API key (miễn phí)</label>
+    <input id="geminiKey" type="password" placeholder="AIza...">
+    <label for="geminiModel">Model</label>
+    <input id="geminiModel" type="text" placeholder="gemini-2.5-flash">
+  </div>
+
+  <div id="openai-box" class="box hidden">
+    <label for="openaiBase">Base URL</label>
+    <input id="openaiBase" type="text" placeholder="https://api.openai.com/v1">
+    <label for="openaiKey">API key</label>
+    <input id="openaiKey" type="password" placeholder="sk-...">
+    <label for="openaiModel">Model</label>
+    <input id="openaiModel" type="text" placeholder="gpt-4o-mini">
+  </div>
+
+  <div class="row">
+    <input id="auto" type="checkbox">
+    <label for="auto" style="margin:0">Tự động dịch khi mở đề bài</label>
+  </div>
+
+  <div class="btns">
+    <button id="btn-translate">Dịch trang này</button>
+    <button id="btn-original">Bản gốc</button>
+  </div>
+  <div class="btns">
+    <button id="btn-summarize" style="background:#0e7490;color:#fff;">📝 Tóm tắt đề</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="hint">
+    <b>Dịch & tóm tắt đều miễn phí 100%, không cần key gì cả.</b> Công thức, code, link giữ nguyên 100%.
+    Key Gemini là <i>tùy chọn</i> nếu muốn tóm tắt chất lượng cao hơn: <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

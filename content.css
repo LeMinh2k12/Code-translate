@@ -1,0 +1,136 @@
+/* Thanh công cụ nổi trên trang đề Codeforces */
+#cf-tr-bar {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.45);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+#cf-tr-bar button {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+#cf-tr-go {
+  background: #2563eb;
+  color: #ffffff;
+}
+#cf-tr-go:hover { background: #1d4ed8; }
+#cf-tr-go:disabled { opacity: 0.6; cursor: wait; }
+
+#cf-tr-orig {
+  background: #334155;
+  color: #cbd5e1;
+}
+#cf-tr-orig:hover { background: #475569; }
+
+#cf-tr-close {
+  background: transparent;
+  color: #94a3b8;
+  padding: 4px 6px;
+  font-weight: 400;
+}
+#cf-tr-close:hover { color: #e2e8f0; }
+
+#cf-tr-status {
+  max-width: 340px;
+  color: #94a3b8;
+}
+#cf-tr-status.ok { color: #4ade80; }
+#cf-tr-status.err { color: #f87171; }
+
+/* Dấu hiệu nhẹ cho các đoạn đã dịch */
+.problem-statement.cf-tr-translated .cf-tr-unit {
+  unicode-bidi: plaintext;
+}
+
+/* Panel tóm tắt đề */
+#cf-sum-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 72px;
+  width: 360px;
+  max-height: min(68vh, 560px);
+  overflow: auto;
+  z-index: 2147483000;
+  display: none;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 10px 36px rgba(2, 6, 23, 0.5);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#cf-sum-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid #1e293b;
+  font-weight: 700;
+  color: #93c5fd;
+  position: sticky;
+  top: 0;
+  background: #0f172a;
+}
+
+#cf-sum-close {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 6px;
+}
+#cf-sum-close:hover { color: #e2e8f0; }
+
+#cf-sum-body { padding: 10px 12px 4px; }
+
+.cf-sum-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #60a5fa;
+  margin: 8px 0 2px;
+}
+.cf-sum-text {
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#cf-sum-src {
+  padding: 8px 12px 10px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+#cf-tr-sum {
+  background: #0e7490;
+  color: #ffffff;
+}
+#cf-tr-sum:hover { background: #155e75; }
+#cf-tr-sum:disabled { opacity: 0.6; cursor: wait; }
