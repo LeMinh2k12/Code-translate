@@ -15,6 +15,7 @@ export interface LoaderHandle {
 interface ActiveModule {
   module: CfModule;
   ctx: ModuleContext;
+  disposer: () => void | Promise<void>;
 }
 
 const MODULE_KEY: Record<string, keyof PublicSettings['modules']> = {
@@ -74,14 +75,19 @@ export function createLoader(opts?: { debounceMs?: number; autoInit?: boolean })
       }
       if (!matches) continue;
       const ctx = buildCtx(module, settings);
-      active.push({ module, ctx });
+      let disposer: ActiveModule['disposer'] | undefined;
       try {
-        await module.init(ctx);
+        const result = await module.init(ctx);
+        if (typeof result === 'function') disposer = result;
       } catch (e) {
         const msg = String((e as Error)?.message || e);
         console.warn(`[cf-toolkit] module "${module.id}" init failed:`, e);
         void sendMessage({ type: 'module:status', module: module.id, status: 'err', text: msg });
       }
+      if (!disposer && typeof module.destroy === 'function') {
+        disposer = module.destroy.bind(module);
+      }
+      active.push({ module, ctx, disposer: disposer || (async () => {}) });
     }
   };
 
@@ -90,7 +96,7 @@ export function createLoader(opts?: { debounceMs?: number; autoInit?: boolean })
     active = [];
     for (const a of list) {
       try {
-        await a.module.destroy?.();
+        await a.disposer();
       } catch (e) {
         console.warn(`[cf-toolkit] module "${a.module.id}" destroy failed:`, e);
       }

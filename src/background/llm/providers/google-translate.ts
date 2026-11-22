@@ -29,7 +29,7 @@ export const googleTranslateProvider: LlmProvider = {
   id: 'google',
   async chat(req: ChatRequest): Promise<ChatResponse> {
     // Google Translate chỉ nhận text thuần — dùng req.user như một khối; nếu system chứa target lang thì ưu tiên
-    const target = (req as ChatRequest & { targetLang?: string }).targetLang || 'vi';
+    const target = req.targetLang || 'vi';
     const text = await googleReq(req.user, target);
     return { text, provider: googleTranslateProvider.id, model: 'google-translate' };
   },

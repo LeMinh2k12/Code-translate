@@ -4,7 +4,8 @@ import browser from 'webextension-polyfill';
 export type MessageOut =
   | { type: 'ping' }
   | { type: 'llm:ping' }
-  | { type: 'llm:chat'; system: string; user: string; lane?: string; maxTokens?: number }
+  | { type: 'llm:translate'; segments: string[]; targetLang: string; glossary?: string; lane?: string }
+  | { type: 'llm:summarize'; text: string; lane?: string }
   | { type: 'module:status'; module: string; status: 'ok' | 'warn' | 'err'; text?: string };
 
 export interface SendOk {

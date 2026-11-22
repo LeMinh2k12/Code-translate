@@ -20,6 +20,8 @@ export interface ChatRequest {
   maxTokens?: number;
   signal?: AbortSignal;
   lane?: string;
+  /** Target language (chỉ google provider dùng) */
+  targetLang?: string;
 }
 
 export interface ChatResponse {
