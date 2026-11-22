@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "CF Toolkit",
+    "description": "Tên của extension"
+  },
+  "appDescription": {
+    "message": "Bộ công cụ all-in-one cho Codeforces: dịch & tóm tắt đề, lọc div, dark themes, nộp bài nhanh...",
+    "description": "Mô tả hiển thị trên cửa hàng trình duyệt"
+  },
+  "popupOpenOptions": {
+    "message": "Mở Cài đặt",
+    "description": "Nhãn nút trong popup"
+  },
+  "popupTitle": {
+    "message": "CF Toolkit",
+    "description": "Tiêu đề popup"
+  }
+}
