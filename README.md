@@ -22,10 +22,13 @@ Extension all-in-one cho Codeforces — hướng đến cộng đồng CP Việt
 npm install
 npm run build:all     # tsc typecheck + vite build (sw + popup + options + content.js)
 npm test              # vitest (tokens, settings, url-match)
+npm run package       # build + đóng gói .zip với manifest tại root của zip
 npm run dev           # watch build
 ```
 
-Cài đặt extension (Chrome): `chrome://extensions` → bật Developer mode → **Load unpacked** → chọn thư mục `dist/`.
+Cài đặt extension (Chrome): `chrome://extensions` → bật Developer mode → **Load unpacked** → chọn thư mục **`dist/`** (KHÔNG phải root repo — root chỉ chứa nguồn, manifest cũ đã được di chuyển vào `legacy/`).
+
+Đóng gói cho Chrome Web Store / Firefox Add-ons: `npm run package` → tạo `cf-toolkit-<version>.zip` (manifest tại zip root).
 
 ## Kiến trúc
 

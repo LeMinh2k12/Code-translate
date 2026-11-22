@@ -9,6 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "build:content": "vite build -c vite.content.config.ts",
     "build:all": "npm run build && npm run build:content",
+    "package": "npm run build:all && node scripts/package.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
