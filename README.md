@@ -2,7 +2,7 @@
 
 Extension all-in-one cho Codeforces — hướng đến cộng đồng CP Việt Nam. Manifest V3, TypeScript, Vite, Chrome + Firefox.
 
-> Giai đoạn 2 — khung dự án đang hoàn thành. Xem README cũ ở `legacy/` để đối chiếu với extension hiện có.
+> Giai đoạn 3 — Translate problem + summarize module đã chức thực hiện (port từ legacy).
 
 ## Tính năng (theo lộ trình)
 
@@ -10,7 +10,7 @@ Extension all-in-one cho Codeforces — hướng đến cộng đồng CP Việt
 |---|---|
 | Theme (Dark/Light/Auto) | khung — dùng trong Options page |
 | Contest Safety | khung — banner trên trang contest |
-| Translate problem + summarize | (Giai đoạn 3 — port từ legacy) |
+| Translate problem + summarize | ✅ đã chức thực hiện (Giai đoạn 3) |
 | Filters (div/rating/tag) | khung |
 | Quick submit + verdict | khung |
 | Blog translate | khung |
@@ -21,11 +21,22 @@ Extension all-in-one cho Codeforces — hướng đến cộng đồng CP Việt
 ```bash
 npm install
 npm run build:all     # tsc typecheck + vite build (sw + popup + options + content.js)
-npm test              # vitest (tokens, settings, url-match)
+npm test              # vitest (tokens, settings, url-match, dom-extract, translate-problem)
+npm run package       # build + đóng gói .zip với manifest tại root của zip
 npm run dev           # watch build
 ```
 
-Cài đặt extension (Chrome): `chrome://extensions` → bật Developer mode → **Load unpacked** → chọn thư mục `dist/`.
+Cài đặt extension (Chrome): `chrome://extensions` → bật Developer mode → **Load unpacked** → chọn thư mục **`dist/`** (KHÔNG phải root repo — root chỉ chứa nguồn, manifest cũ đã được di chuyển vào `legacy/`).
+
+Đóng gói cho Chrome Web Store / Firefox Add-ons: `npm run package` → tạo `cf-toolkit-<version>.zip` (manifest tại zip root).
+
+### CI — đóng gói tự động
+
+Workflow `.github/workflows/release.yml` (chạy trên GitHub Actions):
+- **Run workflow thủ công** (Actions → "Build & package extension" → Run workflow) → zip được upload làm workflow artifact; người dùng bấm Download ở trang Actions.
+- **Tag `v*`** (vd `v0.1.0`) → build + đóng gói + zip attach thẳng lên GitHub Release — tải zip từ trang Releases của repo.
+
+> Lưu ý: zip tự tạo của GitHub (`Download ZIP` trên trang repo) chỉ chứa **source code** — không phải extension. Extension loadable đến từ `dist/` hoặc zip do `npm run package` / workflow sinh ra.
 
 ## Kiến trúc
 
@@ -59,11 +70,28 @@ src/
 | `generativelanguage.googleapis.com`, `api.openai.com`, `api.anthropic.com`, `translate.googleapis.com`, `text.pollinations.ai` | provider LLM chính thức + free engines (opt-in) |
 | `optional_host_permissions: ["https://*/*"]` | chỉ yêu cầu runtime cho **đúng origin người dùng tự nhập** khi cấu hình endpoint tự host (Chrome Web Store: khai rõ trong README + xin đúng origin cụ thể) |
 
-## Giới hạn hiện tại (giai đoạn 2)
+## Giới hạn hiện tại (giai đoạn 3)
 
-- Modules translate/filters/submit/blog/analysis chưa chức thực hiện — chỉ là khung, bọc `init`/`destroy` an toàn.
-- Test chỉ cover tokens / settings / url-match — parser + modules test ở giai đoạn sau.
+- Translate-problem module đang chạy (dịch đề theo glossary, tóm tắt bằng structured JSON, contest-safety gate). **Blog translate / Quick submit / Filters / Code-analysis** vẫn là khung.
+- Test cover tokens / settings / url-match / dom-extract / translate-problem.
 - Icon là bản placeholder.
+
+## Kiến trúc — Translate module (giai đoạn 3)
+
+```
+content: findStatementRoot → collectUnits → protectMath → sendBackground
+  → background: pickProvider → translatePrompt(targetLang, glossary) →
+    providers (gemini/openai/anthropic/google/pollinations) → parseJsonArray →
+  rebuildUnit (khôi phục nodes $math/code) → side-by-side toggle
+```
+
+- Contest-safety gate ở **content module** (đọc `contestSafety.mode` từ settings):
+  - `off` → không khóa.
+  - `on` → luôn khóa LLM.
+  - `auto` → khóa khi `isContestPage(url)`.
+  - Override được chỉ khi user bật `allowLlmOverride` và confirm 1 lần mỗi phiên — không lưu trạng thái.
+- Glossary (dưới dạng text, mỗi dòng `key=value`) được gửi từ content module đến background — background không bao giờ chứa key.
+
 
 ## License
 

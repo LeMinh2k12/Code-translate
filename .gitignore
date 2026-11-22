@@ -2,3 +2,6 @@ node_modules/
 dist/
 .DS_Store
 *.log
+
+# Release artifacts (use `npm run package` to create)
+*.zip

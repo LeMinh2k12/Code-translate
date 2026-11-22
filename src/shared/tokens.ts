@@ -44,7 +44,7 @@ export function tryAlternateTokens(s: string, saveLen: number): Array<{ text?: s
   return found.size > 0 ? parts : null;
 }
 
-export function protectMath(s: string, save: Array<{ kind: 'text' | 'node'; value: string }>): string {
+export function protectMath(s: string, save: Array<{ kind: 'text' | 'node'; value: Node | string }>): string {
   s = s.replace(/\\\$/g, () => pushText('$', save));
   s = s.replace(/\$\$\$([^$]{1,800}?)\$\$\$/g, (m) => pushText(m, save));
   s = s.replace(/\$\$([^$]{1,800}?)\$\$/g, (m) => pushText(m, save));
@@ -55,7 +55,7 @@ export function protectMath(s: string, save: Array<{ kind: 'text' | 'node'; valu
   return s;
 }
 
-function pushText(text: string, save: Array<{ kind: 'text' | 'node'; value: string }>): string {
+function pushText(text: string, save: Array<{ kind: 'text' | 'node'; value: Node | string }>): string {
   const i = save.length;
   save.push({ kind: 'text', value: text });
   return tok(i);

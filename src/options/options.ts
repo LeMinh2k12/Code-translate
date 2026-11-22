@@ -57,6 +57,7 @@ async function load() {
   ($('targetLang') as HTMLSelectElement).value = cfg.translate.targetLang;
   ($('allowFreeEngine') as HTMLInputElement).checked = cfg.translate.allowFreeEngine;
   ($('autoTranslate') as HTMLInputElement).checked = cfg.translate.auto;
+  ($('glossaryVi') as HTMLTextAreaElement).value = cfg.translate.glossaryVi || '';
   ($('provider') as HTMLSelectElement).value = cfg.llm.provider;
   ($('provider') as HTMLSelectElement).setAttribute('value', cfg.llm.provider);
   $('keysStoreSync').setAttribute('checked', String(cfg.llm.keysStore === 'sync'));
@@ -126,6 +127,7 @@ async function save() {
       targetLang: ($('targetLang') as HTMLSelectElement).value,
       engine: provider as PublicSettings['translate']['engine'],
       auto: ($('autoTranslate') as HTMLInputElement).checked,
+      glossaryVi: ($('glossaryVi') as HTMLTextAreaElement).value.trim(),
       allowFreeEngine: ($('allowFreeEngine') as HTMLInputElement).checked,
     },
     submit: {
@@ -187,7 +189,7 @@ $('btn-save').addEventListener('click', () => {
 });
 $('btn-test').addEventListener('click', () => testConnection());
 // Auto-save on change for simple fields
-['locale', 'themeMode', 'themeWidth', 'themeFontSize', 'targetLang', 'autoTranslate', 'hotkey', 'contestMode', 'provider', 'keysStoreSync'].forEach((id) => {
+['locale', 'themeMode', 'themeWidth', 'themeFontSize', 'targetLang', 'autoTranslate', 'hotkey', 'contestMode', 'provider', 'keysStoreSync', 'glossaryVi'].forEach((id) => {
   $(id)?.addEventListener('change', () => {
     setStatus('Đang lưu…');
     save().then(() => setTimeout(() => setStatus(''), 2500)).catch((e) => setStatus('✗ ' + String(e?.message || e), 'err'));

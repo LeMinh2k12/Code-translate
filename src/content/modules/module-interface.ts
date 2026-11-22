@@ -2,6 +2,9 @@
 import type { PublicSettings } from '../../shared/settings';
 import type { SendResult, MessageOut } from '../../shared/messaging';
 
+/** Disposer là hàm dọn dẹp sau khi module bị destroy (loader gọi khi settings thay đổi / reload). */
+export type Disposer = () => void | Promise<void>;
+
 export interface ModuleContext {
   settings: PublicSettings;
   /** ID của module (để liên kết lỗi/status). */
@@ -16,9 +19,14 @@ export interface CfModule {
   id: string;
   /** i18n key hoặc slug (chỉ để tham chiếu). */
   name: string;
-  /** Miền URL content-script cần áp dụng (ví dụ 'problem', 'contests', 'problemset', 'blog', 'all'). */
+  /** URL content-script cần áp dụng. */
   matches(url: URL): boolean;
-  init(ctx: ModuleContext): void | Promise<void>;
+  /**
+   * Khởi tạo module. Trả về disposer (hoặc void) — loader sẽ gọi disposer khi module bị destroy.
+   * Nếu không trả về disposer, loader dùng `destroy()` (nếu có).
+   */
+  init(ctx: ModuleContext): void | Promise<Disposer | void> | Disposer | void;
+  /** Fallback cho module không tạo state per-init (dùng `destroy` khi không trả disposer). */
   destroy?(): void | Promise<void>;
 }
 
