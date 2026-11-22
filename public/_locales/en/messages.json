@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "CF Toolkit",
+    "description": "Name of the extension"
+  },
+  "appDescription": {
+    "message": "All-in-one toolkit for Codeforces: translate/summarize problems, filters, dark themes, quick submit, and more.",
+    "description": "Description shown in the browser store"
+  },
+  "popupOpenOptions": {
+    "message": "Open Options",
+    "description": "Button label in the popup"
+  },
+  "popupTitle": {
+    "message": "CF Toolkit",
+    "description": "Popup heading"
+  }
+}

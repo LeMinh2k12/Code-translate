@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CF Toolkit — Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <header>
+    <h1>CF Toolkit <span class="sub">Options</span></h1>
+    <p class="hint">Settings sync via chrome.storage.sync. API keys default to storage.local (hybrid option: opt-in sync).</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>General</h2>
+      <label>Language (UI)
+        <select id="locale">
+          <option value="vi">Tiếng Việt</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Modules</h2>
+      <div class="grid" id="modules-toggles"></div>
+    </section>
+
+    <section class="card">
+      <h2>Theme</h2>
+      <label>Mode
+        <select id="themeMode">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="auto">Auto (theo hệ thống)</option>
+        </select>
+      </label>
+      <label>Content width (px, 0 = CF default)
+        <input id="themeWidth" type="number" min="0" step="10" placeholder="0">
+      </label>
+      <label>Font size (px, 0 = default)
+        <input id="themeFontSize" type="number" min="0" step="1" placeholder="0">
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Translation</h2>
+      <label>Target language
+        <select id="targetLang">
+          <option value="vi">Vietnamese (vi)</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="zh-CN">中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </label>
+      <label class="check">
+        <input id="allowFreeEngine" type="checkbox">
+        Cho phép engine miễn phí (Google Translate / Pollinations)
+      </label>
+      <label class="check">
+        <input id="autoTranslate" type="checkbox"> Tự động dịch khi mở đề bài
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>LLM Provider</h2>
+      <p class="hint">Provider mặc định dùng cho dịch + tóm tắt. Key chỉ lưu trên máy (hoặc sync nếu bạn chọn).</p>
+      <label>Provider
+        <select id="provider">
+          <option value="gemini">Gemini (cần key miễn phí)</option>
+          <option value="openai">OpenAI (cần key)</option>
+          <option value="anthropic">Anthropic (cần key)</option>
+          <option value="openai-compat">OpenAI-compatible tự host</option>
+          <option value="google">Google Translate (miễn phí, không key)</option>
+          <option value="pollinations">Pollinations AI (miễn phí, không key)</option>
+        </select>
+      </label>
+      <label class="row">
+        <span>Gemini API key</span>
+        <input id="geminiKey" type="password" autocomplete="off" placeholder="AIza...">
+      </label>
+      <label class="row">
+        <span>OpenAI API key</span>
+        <input id="openaiKey" type="password" autocomplete="off" placeholder="sk-...">
+      </label>
+      <label class="row">
+        <span>Anthropic API key</span>
+        <input id="anthropicKey" type="password" autocomplete="off" placeholder="sk-ant-...">
+      </label>
+      <label>Model (ưu tiên trong provider đã chọn)
+        <input id="providerModel" type="text" placeholder="vd: gemini-2.5-flash">
+      </label>
+      <label>Custom base URL (chỉ openai-compat)
+        <input id="openaiBase" type="text" placeholder="https://api.openai.com/v1">
+      </label>
+      <label class="check">
+        <input id="keysStoreSync" type="checkbox"> Đồng bộ keys qua chrome.storage.sync (khuyến nghị local)
+      </label>
+      <button id="btn-test" class="btn">Test kết nối</button>
+      <div id="llm-status" class="status"></div>
+    </section>
+
+    <section class="card">
+      <h2>Quick Submit</h2>
+      <label>Hotkey
+        <input id="hotkey" type="text" placeholder="Ctrl+Enter">
+      </label>
+      <label class="check">
+        <input id="persistLang" type="checkbox"> Nhớ ngôn ngữ nộp bài cho từng loại contest
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Contest Safety</h2>
+      <label>Mode
+        <select id="contestMode">
+          <option value="auto">Auto (phát hiện khi thi)</option>
+          <option value="on">Luôn bật (khóa LLM)</option>
+          <option value="off">Tắt</option>
+        </select>
+      </label>
+      <label class="check">
+        <input id="contestAllowLlm" type="checkbox"> Cho phép bật LLM trong contest (sau xác nhận)
+      </label>
+    </section>
+
+    <footer>
+      <button id="btn-save" class="btn primary">Lưu tất cả</button>
+      <div id="status" class="status"></div>
+    </footer>
+  </main>
+
+  <script type="module" src="options.ts"></script>
+</body>
+</html>
