@@ -30,6 +30,14 @@ Cài đặt extension (Chrome): `chrome://extensions` → bật Developer mode �
 
 Đóng gói cho Chrome Web Store / Firefox Add-ons: `npm run package` → tạo `cf-toolkit-<version>.zip` (manifest tại zip root).
 
+### CI — đóng gói tự động
+
+Workflow `.github/workflows/release.yml` (chạy trên GitHub Actions):
+- **Run workflow thủ công** (Actions → "Build & package extension" → Run workflow) → zip được upload làm workflow artifact; người dùng bấm Download ở trang Actions.
+- **Tag `v*`** (vd `v0.1.0`) → build + đóng gói + zip attach thẳng lên GitHub Release — tải zip từ trang Releases của repo.
+
+> Lưu ý: zip tự tạo của GitHub (`Download ZIP` trên trang repo) chỉ chứa **source code** — không phải extension. Extension loadable đến từ `dist/` hoặc zip do `npm run package` / workflow sinh ra.
+
 ## Kiến trúc
 
 ```

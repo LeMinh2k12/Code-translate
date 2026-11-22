@@ -1,0 +1,40 @@
+name: Build & package extension
+
+on:
+  workflow_dispatch:        # người dùng bấm "Run workflow" khi muốn đóng gói
+  push:
+    tags:
+      - 'v*'                 # tag v0.1.0 → tự attach zip lên Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check + build + package
+        run: npm run package
+
+      - name: Upload zip as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cf-toolkit-zip
+          path: 'cf-toolkit-*.zip'
+
+      - name: Attach zip to GitHub Release (on tags)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: 'cf-toolkit-*.zip'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
